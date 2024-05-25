@@ -32,7 +32,8 @@ public class RestCountriesApiClient {
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
                 Country[] countries = responseEntity.getBody();
 
-                System.out.println("THIS IS ALL COUNTRIES  "+countries);
+                System.out.println("THIS IS ALL COUNTRIES  "+ Arrays.toString(countries));
+                System.out.println("THIS IS ALL COUNTRIES  "+ Arrays.stream(countries).count());
 
                 return Arrays.asList(Objects.requireNonNull(countries));
             } else {

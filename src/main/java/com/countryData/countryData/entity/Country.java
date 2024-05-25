@@ -22,5 +22,12 @@ public class Country {
     public double getPopulationDensity() {
         return population / area;
     }
-
+    public Country(Name name, double population, double area, List<String> borders, String region, String countryCode) {
+        this.name = name;
+        this.population = population;
+        this.area = area;
+        this.borders = borders;
+        this.region = region;
+        this.countryCode = countryCode;
+    }
 }

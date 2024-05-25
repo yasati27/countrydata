@@ -1,12 +1,10 @@
 package com.countryData.countryData.service;
 
 import com.countryData.countryData.entity.Country;
-import com.countryData.countryData.entity.Name;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
 import java.util.List;
 
 import java.util.Comparator;
@@ -37,29 +35,30 @@ public class CountryService {
         if (countries.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No countries found.");
         }
-        Map<Name, Integer> borderingCountMap = new HashMap<>();
        List<String> asianCountryCodes = countries.stream()
                .filter(c -> c.getRegion().equals("Asia"))
                .map(Country::getCountryCode)
                .toList();
 
-        System.out.println("ASIAN COUNTRIES ::" +asianCountryCodes);
+        System.out.println("ASIAN COUNTRIES CODES::" +asianCountryCodes);
 
-        Map<String,Integer> asianCountries = new HashMap<>();
-                 countries.stream()
+        Map<String, Integer> asianCountries = countries.stream()
                 .filter(c -> c.getRegion().equals("Asia"))
-                .forEach(c -> {
-                  int borders = (int) c.getBorders().stream().filter(e -> !asianCountryCodes.contains(e)).count();
-                    asianCountries.put(c.getName().getCommon(),borders);
-
-                });
-
-
-        String str = String.valueOf(asianCountries.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey));
+                .filter(c -> c.getBorders() != null)
+                .collect(Collectors.toMap(
+                        c -> c.getName().getCommon(),
+                        c -> (int) c.getBorders().stream().filter(e -> !asianCountryCodes.contains(e)).count()
+                ));
+        System.out.println("ALL ASIAN COUNTRIES with max non-Asian borders: " + asianCountries);
 
 
-         System.out.println(asianCountries);
-         return null;
+        String str = String.valueOf(asianCountries.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey));
+
+        System.out.println("JUST ONE COUNTRY"+str);
+         return countries.stream().filter(c -> c.getName().getCommon().equals(str)).findFirst().orElse(null);
 
 
     }
