@@ -1,13 +1,12 @@
 package com.countryData.countryData.service;
 
+import com.countryData.countryData.entity.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import com.countryData.countryData.entity.Country;
-
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,12 +14,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class RestCountriesApiClient {
+public class RestCountriesDataApi {
 
     private final RestTemplate restTemplate;
 
     @Autowired
-    public RestCountriesApiClient(RestTemplate restTemplate) {
+    public RestCountriesDataApi(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -31,10 +30,6 @@ public class RestCountriesApiClient {
             ResponseEntity<Country[]> responseEntity = restTemplate.getForEntity(url, Country[].class);
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
                 Country[] countries = responseEntity.getBody();
-
-                System.out.println("THIS IS ALL COUNTRIES  "+ Arrays.toString(countries));
-                System.out.println("THIS IS ALL COUNTRIES  "+ Arrays.stream(countries).count());
-
                 return Arrays.asList(Objects.requireNonNull(countries));
             } else {
                 return Collections.emptyList();
@@ -45,7 +40,6 @@ public class RestCountriesApiClient {
             return Collections.emptyList();
         }
     }
-
 
 
 }

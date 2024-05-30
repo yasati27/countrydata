@@ -2,8 +2,8 @@ package com.countryData.countryData;
 
 import com.countryData.countryData.entity.Country;
 import com.countryData.countryData.entity.Name;
-import com.countryData.countryData.service.RestCountriesApiClient;
-import com.countryData.countryData.service.CountryService;
+import com.countryData.countryData.service.CountryServiceImpl;
+import com.countryData.countryData.service.RestCountriesDataApi;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,65 +11,87 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+//
 @RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
 class CountryDataApplicationTests {
 
-	@Mock
-	private RestCountriesApiClient restCountriesApiClient;
-
-	@InjectMocks
-	private CountryService countryService;
+    @Mock
+    private RestCountriesDataApi restCountriesDataApi;
 
 
+    @InjectMocks
+    private CountryServiceImpl countryService;
 
-	@Before
-	public void setUp() {
-		//MockitoAnnotations.initMocks(this); // Initialize Mockito annotations
 
-	}
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+
+    }
 
 //	List<Country> mockCountries = new ArrayList<>();
 
 
+    @Test
+    public void test_getCountriesByPopulationDensity() {
+        List<Country> mockCountries = Arrays.asList(
+                new Country(new Name("France", "France"), 67000000, 551695, Arrays.asList("SPA", "GER", "ITA"), "Europe", "FRA"),
+                new Country(new Name("NA", "NA"), 331000000, 9833517, Arrays.asList("CAN", "MEX"), "America", "NAA")
+        );
 
+        // Mock behavior
+        when(restCountriesDataApi.getAllCountries()).thenReturn(mockCountries);
+
+        // Test
+        List<Country> result = countryService.getCountriesByPopulationDensity();
+        assertEquals(mockCountries, result);
+    }
+
+    @Test
+    public void test_getCountriesByPopulationDensity_noCountries() {
+        // Mock no countries
+        when(restCountriesDataApi.getAllCountries()).thenReturn(Collections.emptyList());
+		assertThrows(ResponseStatusException.class, () -> countryService.getCountriesByPopulationDensity());
+    }
 
 
 	@Test
-	public void test_getCountriesByPopulationDensity() {
+	public void test_getAsianCountryWithMostBorderingCountries() {
 		List<Country> mockCountries = Arrays.asList(
+				new Country(new Name("Japan", "Japan"), 126000000, 377975, Arrays.asList("TUR", "CHI"), "Asia", "JAP"),
+				new Country(new Name("Turkey", "Turkey"), 83100000, 783562, Arrays.asList("GRE", "SYR"), "Asia", "TUR"),
 				new Country(new Name("France", "France"), 67000000, 551695, Arrays.asList("SPA", "GER", "ITA"), "Europe", "FRA"),
-				new Country(new Name("NA", "NA"), 331000000, 9833517, Arrays.asList("CAN", "MEX"), "America", "NAA")
-/*				new Country("India", 1380000000, 3287263, Arrays.asList("China", "Pakistan"), "Asia"),
-				new Country("Japan", 126000000, 377975, Arrays.asList("South Korea", "China"), "Asia"),
-				new Country("Nepal", 29600000, 147516, Arrays.asList("China", "India"), "Asia"),
-				new Country("Turkey", 83100000, 783562, Arrays.asList("Greece", "Syria"), "Asia"),
-				new Country("Iran", 84000000, 1648195, Arrays.asList("Iraq", "Afghanistan"), "Asia")*/
+				new Country(new Name("NA", "NA"), 331000000, 9833517, Arrays.asList("CAN", "MEX"), "America", "NAA"),
+		        new Country(new Name("Nepal", "Nepal"), 29600000, 147516, Arrays.asList("TUR", "JAP"), "Asia", "NEP")
+			// Country codes JAP TUR NEP
 		);
 
+		Country expected = new Country(new Name("Turkey", "Turkey"), 83100000, 783562, Arrays.asList("GRE", "SYR"), "Asia", "TUR");
+
 		// Mock behavior
-		when(restCountriesApiClient.getAllCountries()).thenReturn(mockCountries);
+		when(restCountriesDataApi.getAllCountries()).thenReturn(mockCountries);
 
 		// Test
-		List<Country> result = countryService.getCountriesByPopulationDensity();
-		assertEquals(mockCountries, result);
+		 Country result = countryService.getAsianCountryWithMostBorderingCountries();
+		assertEquals(expected, result);
 	}
 
 	@Test
-	public void test_getCountriesByPopulationDensity_noCountries() {
+	public void test_getAsianCountryWithMostBorderingCountries_noCountries() {
 		// Mock no countries
-		when(restCountriesApiClient.getAllCountries()).thenReturn(Collections.emptyList());
-
-		// Test
-		countryService.getCountriesByPopulationDensity();
+		when(restCountriesDataApi.getAllCountries()).thenReturn(Collections.emptyList());
+		assertThrows(ResponseStatusException.class, () -> countryService.getAsianCountryWithMostBorderingCountries());
 	}
+
 }
