@@ -6,22 +6,21 @@ This project provides functionality to retrieve and manipulate data about countr
 
 ## Setup Guide
 
-1.Clone the repo with url : https://github.com/yasati27/countryData.git
+1. Clone the repo with url : https://github.com/yasati27/countryData.git
 
-
-2.Go to root directory that is ~/countryData and run the following command
+2. Go to root directory that is ~/countryData and run the following command
 ```
   ./mvnw spring-boot:run
 ```
 If Step 1 and 2 are properly configured, you will see **Tomcat started on port(s): 8080**.
 
-4. Now open your localhost and choose basic auth option in Authrization in Postman. Then enter username and password. Use below Username and Password mentioned in application.properties.
+3. Now open your localhost and choose basic auth option in Authrization in Postman. Then enter username and password. Use below Username and Password mentioned in application.properties.
   ```
   #spring security credentials
   spring.security.user.name=root
   spring.security.user.password=root
   ```
-5. Now use the Postman collection mentioned at bottom to explore the APIs.
+4. Now use the Postman collection mentioned at bottom to explore the APIs.
 
 ## Project Architecture
 1. MVC pattern is used to seggregate the functionality,and the view part is not being used for now.
