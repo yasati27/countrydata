@@ -6,7 +6,7 @@ This project provides functionality to retrieve and manipulate data about countr
 
 ## Setup Guide
 
-1. Clone the repo with url : https://github.com/yasati27/countryData.git
+1. Clone the repo with url : https://github.com/yasati27/countrydata.git
 
 2. Go to root directory that is ~/countryData and run the following command
 ```
