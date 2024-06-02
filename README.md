@@ -12,7 +12,7 @@ This project provides functionality to retrieve and manipulate data about countr
 ```
   ./mvnw spring-boot:run
 ```
-If Step 1 and 2 are properly configured, you will see **Tomcat started on port(s): 8080**.
+If Step 1 and 2 are properly configured, you will see **Tomcat started on port(s): 9090**.
 
 3. Now open your localhost and choose basic auth option in Authrization in Postman. Then enter username and password. Use below Username and Password mentioned in application.properties.
   ```
