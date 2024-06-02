@@ -1,11 +1,13 @@
 package com.countryData.countryData.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 @Data
+@AllArgsConstructor
 public class Country {
 
     private Name name;
@@ -16,18 +18,10 @@ public class Country {
     @JsonProperty("cca3")
     private String countryCode;
 
-    // Writing constructor
 
-   // Implementing the population density calculation
+    // Implementing the population density calculation
     public double getPopulationDensity() {
         return population / area;
     }
-    public Country(Name name, double population, double area, List<String> borders, String region, String countryCode) {
-        this.name = name;
-        this.population = population;
-        this.area = area;
-        this.borders = borders;
-        this.region = region;
-        this.countryCode = countryCode;
-    }
+
 }

@@ -1,6 +1,7 @@
 package com.countryData.countryData.service;
 
 import com.countryData.countryData.entity.Country;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
+@Slf4j
 public class RestCountriesDataApi {
 
     private final RestTemplate restTemplate;
@@ -35,9 +37,8 @@ public class RestCountriesDataApi {
                 return Collections.emptyList();
             }
         } catch (HttpClientErrorException ex) {
-            // Handle HTTP client errors
-            ex.printStackTrace();
             return Collections.emptyList();
+
         }
     }
 

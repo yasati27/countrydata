@@ -2,9 +2,8 @@ package com.countryData.countryData.controller;
 
 import com.countryData.countryData.entity.Country;
 import com.countryData.countryData.service.CountryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,32 +14,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/countries")
+@RequiredArgsConstructor
+@Slf4j
 public class CountryController {
 
-    @Autowired
-    private CountryService countryService;
+    private final CountryService countryService;
 
-    Logger logger = LoggerFactory.getLogger(CountryController.class);
 
     @GetMapping("/populationdensity")
     public ResponseEntity<List<Country>> getCountriesByPopulationDensity() {
         List<Country> countries = countryService.getCountriesByPopulationDensity();
-        try {
+        if (!countries.isEmpty()) {
             return new ResponseEntity<>(countries, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.info("Countries not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            log.warn("Countries not found for populationdensity filter");
+            throw new CountryNotFoundException("Countries not found for populationdensity filter");
         }
     }
 
     @GetMapping("/most-bordering-country")
-    public ResponseEntity<Country> getAsianCountryWithMostBorderingCountries() {
+    public ResponseEntity<Country> getAsianCountryWithMostBorderingCountries() throws CountryNotFoundException {
         Country country = countryService.getAsianCountryWithMostBorderingCountries();
-        try {
+        if (country != null) {
             return new ResponseEntity<>(country, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.info("Country not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            log.warn("Country not found for most-bordering-country filter");
+            throw new CountryNotFoundException("Country not found for most-bordering-country filter");
         }
     }
 }

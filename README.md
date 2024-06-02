@@ -62,10 +62,10 @@ This controller exposes REST endpoints to interact with the country data service
 
 ### ScreenShots for response for both the above get apis:
 - GET /countries/populationdensity :
- ![Screenshot (164)](https://github.com/yasati27/countryData/assets/170762397/e06dafa7-fe1f-4798-904f-1dbd0b34a5dc)
+ ![Screenshot (164)](https://github.com/yasati27/countrydata/assets/170762397/9e084dd4-898d-466c-8d8c-c627dad3bab1)
 
 - GET /countries/most-bordering-country:
- ![Screenshot (167)](https://github.com/yasati27/countryData/assets/170762397/c8406815-0b4e-4306-a7b2-f6c5f265e38d)
+  ![Screenshot (167)](https://github.com/yasati27/countrydata/assets/170762397/c071a142-0feb-460f-9748-5fda56b977d6)
 
 ## Testing
 
