@@ -22,7 +22,7 @@ public class CountryController {
 
 
     @GetMapping("/populationdensity")
-    public ResponseEntity<List<Country>> getCountriesByPopulationDensity() {
+    public ResponseEntity<List<Country>> getCountriesByPopulationDensity() throws CountryNotFoundException {
         List<Country> countries = countryService.getCountriesByPopulationDensity();
         if (!countries.isEmpty()) {
             return new ResponseEntity<>(countries, HttpStatus.OK);

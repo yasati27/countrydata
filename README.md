@@ -121,6 +121,7 @@ The project includes unit tests to ensure the functionality of the controller la
 - Spring Boot
 - Spring Web
 - Spring Test
+- Spring Boot Actuator
 - Mockito
 - SLF4J
 - Spring Data JPA
