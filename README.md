@@ -68,7 +68,7 @@ On success token will be generated as shown below:
 1. MVC pattern is used to seggregate the functionality,and the view part is not being used for now.
 2. Outline of Core logic folder is as follows :
   ```
-  -- recipebook
+  -- countryData
     |-- CountryDataApplication.java
     |-- controller
     |   |-- CountryController.java
